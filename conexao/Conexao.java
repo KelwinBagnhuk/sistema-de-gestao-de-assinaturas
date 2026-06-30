@@ -17,7 +17,7 @@ public class Conexao {
     public Conexao() {
         String driver = "org.postgresql.Driver";
         String user   = "postgres";
-        String senha  = "Kel159203!";   // Alterar para a sua senha do PostgreSQL
+        String senha  = "postgres";  // Alterar para a sua senha do PostgreSQL
         String url    = "jdbc:postgresql://localhost:5432/subscriptions"; // nome do banco deve ser "subscriptions" no PostgreSQL
 
         try {
