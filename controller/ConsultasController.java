@@ -96,7 +96,7 @@ public class ConsultasController {
             encontrou = true;
             System.out.println("  Cliente: "        + result.getString("nome")
                 + " | Email: "         + result.getString("email")
-                + " | Total Pago: R$ " + String.format("%.2f", result.getDouble("total_pago")));
+                + " | Total Pago: R$ " + String.format("%.2f", result.getDouble("media_paga")));
         }
         if (!encontrou) {
             System.out.println("  Nenhum cliente com total acima da media (verifique se ha pagamentos cadastrados).");
