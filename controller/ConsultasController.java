@@ -66,8 +66,8 @@ public class ConsultasController {
 
     // ---------------------------------------------------------------
     // CONSULTA 2: Subconsulta + Funções de Agregação
-    // SUM(pg.valor_pago) -> soma os pagamentos de cada cliente
-    // AVG(valor_pago)    -> média global dentro da subconsulta
+    // AVG(pg.valor_pago) -> soma os pagamentos de cada cliente e tira a média
+    // AVG(valor_pago)    -> média global dentro da subconsulta (média de todos os pagamentos registrados no sistema)
     // HAVING             -> filtra grupos cujo total > média global
     // ---------------------------------------------------------------
     public void listarClientesAcimaDaMedia(Connection con) throws SQLException {
@@ -75,15 +75,15 @@ public class ConsultasController {
             "SELECT " +
             "    c.nome, " +
             "    c.email, " +
-            "    SUM(pg.valor_pago) AS total_pago " +
+            "    AVG(pg.valor_pago) AS media_paga " +
             "FROM cliente c " +
             "JOIN assinatura a  ON c.id_cliente   = a.id_cliente " +
             "JOIN pagamento  pg ON a.id_assinatura = pg.id_assinatura " +
             "GROUP BY c.id_cliente, c.nome, c.email " +
-            "HAVING SUM(pg.valor_pago) > ( " +
+            "HAVING AVG(pg.valor_pago) > ( " +
             "    SELECT AVG(valor_pago) FROM pagamento " +
             ") " +
-            "ORDER BY total_pago DESC";
+            "ORDER BY media_paga DESC";
 
         Statement st = con.createStatement();
         ResultSet result = st.executeQuery(sql);
