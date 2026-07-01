@@ -15,16 +15,16 @@ CREATE TABLE cliente (
     id_cliente SERIAL       PRIMARY KEY,
     nome       VARCHAR(100) NOT NULL,
     email      VARCHAR(100) NOT NULL,
-    cpf        CHAR(11)     NOT NULL UNIQUE,
-    telefone   VARCHAR(20)  NOT NULL
+    cpf        CHAR(11)     NOT NULL UNIQUE, -- CHAR TAMANHO FIXO, VAI PREENCHER O RESTANTE (11 DIGITOS SEMPRE)
+    telefone   VARCHAR(20)  NOT NULL -- CHAR TAMANHO VARIAVEL
 );
 
 -- ------------------------------------------------------------
 CREATE TABLE plano (
     id_plano      SERIAL       PRIMARY KEY,
     nome          VARCHAR(100) NOT NULL,
-    descricao     TEXT,
-    valor         NUMERIC(10,2) NOT NULL,
+    descricao     TEXT, -- SEM LIMITE DEFINIDO
+    valor         NUMERIC(10,2) NOT NULL, -- ATÉ 10 DIGITOS, COM 2 PARA VIRGULA (DECIMAL)
     periodicidade VARCHAR(20)  NOT NULL DEFAULT 'mensal'
     -- mensal, trimestral, semestral, anual
 );
@@ -41,7 +41,7 @@ CREATE TABLE plano_servico (
     id_plano   INT NOT NULL,
     id_servico INT NOT NULL,
     limite_uso VARCHAR(50) DEFAULT 'ilimitado',
-    PRIMARY KEY (id_plano, id_servico)
+    PRIMARY KEY (id_plano, id_servico),
 
     -- chaves estrangeiras
     FOREIGN KEY (id_plano) REFERENCES plano(id_plano) ON DELETE CASCADE,
@@ -55,7 +55,7 @@ CREATE TABLE assinatura (
     id_plano      INT         NOT NULL,
     data_inicio   DATE        NOT NULL,
     data_fim      DATE,       -- NULL = sem data de encerramento
-    status        VARCHAR(20) NOT NULL DEFAULT 'ativa'
+    status        VARCHAR(20) NOT NULL DEFAULT 'ativa',
 
     -- chaves estrangeiras
     FOREIGN KEY (id_plano) REFERENCES plano(id_plano) ON DELETE CASCADE,
@@ -71,7 +71,7 @@ CREATE TABLE pagamento (
     mes_referencia  DATE          NOT NULL,  
     metodo          VARCHAR(30)   NOT NULL,  -- cartao_credito, boleto, pix, debito_automatico
     valor_pago      NUMERIC(10,2) NOT NULL,
-    status          VARCHAR(20)   NOT NULL DEFAULT 'pendente'
+    status          VARCHAR(20)   NOT NULL DEFAULT 'pendente',
     -- pago, pendente, atrasado
 
     FOREIGN KEY (id_assinatura) REFERENCES assinatura(id_assinatura) ON DELETE CASCADE
